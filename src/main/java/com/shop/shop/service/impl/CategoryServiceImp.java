@@ -1,5 +1,6 @@
 package com.shop.shop.service.impl;
 
+import com.shop.shop.configuration.exception.category.CategoryNotFoundException;
 import com.shop.shop.dto.CategoryDTO;
 import com.shop.shop.entity.Category;
 import com.shop.shop.repository.CategoryRepository;
@@ -27,7 +28,7 @@ public class CategoryServiceImp implements CategoryService {
 
     @Override
     public Category create(CategoryDTO categoryDTO) {
-        // TODO: 30.10.2021 need add some exception
+        // TODO: 30.10.2021 need add some exception and add validators
         Category category = map(categoryDTO);
         return repository.save(category);
     }
@@ -40,7 +41,6 @@ public class CategoryServiceImp implements CategoryService {
     @Override
     public Category update(CategoryDTO categoryDTO) {
         if (categoryDTO.getId() == null){
-            // TODO: 30.10.2021 create custom exception
             throw new IllegalArgumentException("Id must not be null");
         }
         Category category = map(categoryDTO);
@@ -69,7 +69,6 @@ public class CategoryServiceImp implements CategoryService {
         if (byId.isPresent()){
             return byId.get();
         }
-        // TODO: 30.10.2021 make custom exception
-        throw new IllegalArgumentException("Product with id " + id + " not found");
+        throw new CategoryNotFoundException("Product with id " + id + " not found");
     }
 }

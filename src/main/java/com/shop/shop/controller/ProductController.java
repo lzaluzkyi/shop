@@ -1,5 +1,6 @@
 package com.shop.shop.controller;
 
+import com.shop.shop.configuration.exception.NotFoundException;
 import com.shop.shop.dto.CategoryDTO;
 import com.shop.shop.dto.ProductDTO;
 import com.shop.shop.entity.Product;
@@ -25,8 +26,11 @@ public class ProductController {
 
     @GetMapping(value = "/{id}")
     private ProductDTO getOne(@PathVariable(name = "id") Long id) {
-        Product product = productService.getOne(id);
-        return productService.map(product);
+            Product product = productService.getOne(id);
+            return productService.map(product);
+
+
+
     }
 
     @PostMapping("/create")
