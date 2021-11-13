@@ -4,6 +4,7 @@ import com.shop.shop.dto.CategoryDTO;
 import com.shop.shop.dto.ProductDTO;
 import com.shop.shop.entity.Category;
 import com.shop.shop.entity.Product;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
