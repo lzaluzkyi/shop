@@ -6,6 +6,7 @@ import com.shop.shop.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     @GetMapping("/all")
     public List<CategoryDTO> getAll(){
         List<Category> categories = categoryService.getAll();
