@@ -11,4 +11,6 @@ public interface UserService {
 
     User getByEmailAndPassword(String email , String password);
 
+    User getCurrentUser();
+
 }

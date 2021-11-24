@@ -3,6 +3,7 @@ package com.shop.shop.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -23,8 +24,7 @@ public class Product {
 
     private Long capacity;
 
-
-
-
+    @OneToMany(mappedBy = "product")
+    private List<CartNode> cartNodes;
 
 }
