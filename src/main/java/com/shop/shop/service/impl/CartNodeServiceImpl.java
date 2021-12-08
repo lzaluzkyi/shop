@@ -84,6 +84,17 @@ public class CartNodeServiceImpl implements CartNodeService {
         return repository.save(cartNode);
     }
 
+    @Override
+    public Long getCartNodePriceBy(CartNode cartNode) {
+        return cartNode.getCount() * cartNode.getProduct().getPrice();
+    }
+
+    @Override
+    public Long getCartNodePriceById(Long cartNodeId) {
+        CartNode cartNode = repository.getById(cartNodeId);
+        return cartNode.getCount() * cartNode.getProduct().getPrice();
+    }
+
     private void delete(CartNode cartNode){
         repository.delete(cartNode);
     }

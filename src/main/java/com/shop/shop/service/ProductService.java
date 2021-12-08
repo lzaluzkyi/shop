@@ -25,5 +25,4 @@ public interface ProductService {
     Product map(ProductDTO productDTO);
 
     ProductDTO map(Product product);
-
 }

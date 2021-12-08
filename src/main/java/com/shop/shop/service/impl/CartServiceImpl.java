@@ -14,6 +14,7 @@ import com.shop.shop.service.ProductService;
 import com.shop.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
@@ -56,7 +57,7 @@ public class CartServiceImpl implements CartService {
         Long productId = productDTO.getId();
         CartNode byCartAndProduct = cartNodeService.getByCartAndProduct(productId, cartByCurrentUser);
 
-        if (byCartAndProduct != null){
+        if (byCartAndProduct != null) {
             cartNodeService.addOneProduct(byCartAndProduct);
             return save(cartByCurrentUser);
         }
@@ -76,18 +77,30 @@ public class CartServiceImpl implements CartService {
         Long productId = productDTO.getId();
         CartNode byCartAndProduct = cartNodeService.getByCartAndProduct(productId, cartByCurrentUser);
 
-        if (byCartAndProduct != null){
+        if (byCartAndProduct != null) {
             cartNodeService.deleteOneProduct(byCartAndProduct);
             return save(cartByCurrentUser);
         }
-       throw new NotFoundException("This user dont have cart");
+        throw new NotFoundException("This user dont have cart");
+    }
+
+    @Override
+    @Transactional
+    public Long getCartPrice(Long id) {
+
+        Long total = 0L;
+        Cart one = repository.getOne(id);
+        for (CartNode cartNode : one.getCartNodes()) {
+            total += cartNodeService.getCartNodePriceById(cartNode.getId());
+        }
+        return total;
     }
 
 
     private Cart getCartByCurrentUser() {
         User currentUser = userService.getCurrentUser();
         Cart byUser = repository.getByUser(currentUser);
-        if (byUser != null){
+        if (byUser != null) {
             return byUser;
         }
         byUser = new Cart();
@@ -96,7 +109,7 @@ public class CartServiceImpl implements CartService {
         return save(byUser);
     }
 
-    private Cart save(Cart cart){
+    private Cart save(Cart cart) {
         return repository.save(cart);
     }
 }
